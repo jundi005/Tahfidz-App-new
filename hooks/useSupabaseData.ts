@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import type { Santri, Musammi, Halaqah, AttendanceRecord, HalaqahType, Waktu } from '../types';
@@ -162,6 +163,22 @@ export const useSupabaseData = () => {
         await fetchData();
     }, [fetchData]);
 
+    const deleteHalaqah = useCallback(async (id: number) => {
+        // 1. Delete relations in halaqah_santri
+        const { error: linkError } = await supabase.from('halaqah_santri').delete().eq('halaqah_id', id);
+        if (linkError) throw linkError;
+
+        // 2. Delete attendance records for this halaqah to maintain integrity
+        const { error: attError } = await supabase.from('attendance').delete().eq('halaqah_id', id);
+        if (attError) throw attError;
+
+        // 3. Delete the halaqah
+        const { error } = await supabase.from('halaqah').delete().eq('id', id);
+        if (error) throw error;
+
+        await fetchData();
+    }, [fetchData]);
+
     const removeSantriFromHalaqah = useCallback(async (halaqahId: number, santriId: number) => {
         const { error } = await supabase.from('halaqah_santri').delete()
             .eq('halaqah_id', halaqahId)
@@ -195,5 +212,5 @@ export const useSupabaseData = () => {
     }
 
 
-    return { santri, musammi, halaqah, attendance, loading, error, fetchData, addHalaqah, updateHalaqah, removeSantriFromHalaqah, addSantriToHalaqah, addAttendanceRecords };
+    return { santri, musammi, halaqah, attendance, loading, error, fetchData, addHalaqah, updateHalaqah, deleteHalaqah, removeSantriFromHalaqah, addSantriToHalaqah, addAttendanceRecords };
 };

@@ -5,7 +5,6 @@ import Card from '../components/Card';
 import Modal from '../components/Modal';
 import { Plus, Edit, Trash, Pin, MessageSquare } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { id } from 'date-fns/locale';
 
 
 // FIX: Corrected the usage of the Supabase-generated `Tables` type. The second argument 'Row' was incorrect and has been removed. The `Tables` helper type is designed to return the row type directly when given only the table name.
@@ -150,7 +149,7 @@ const Informasi: React.FC = () => {
                                     {info.title}
                                 </h3>
                                 <p className="text-xs text-slate-500 mt-1">
-                                    Diposting oleh {info.author_email} • {formatDistanceToNow(new Date(info.created_at), { addSuffix: true, locale: id })}
+                                    Diposting oleh {info.author_email} • {formatDistanceToNow(new Date(info.created_at), { addSuffix: true })}
                                 </p>
                             </div>
                             <div className="flex items-center space-x-2 flex-shrink-0">

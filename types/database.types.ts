@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -54,7 +55,7 @@ export type Database = {
         Row: {
           created_at: string | null
           id: number
-          jenis: Database["public"]["Enums"]["halaqah_type_enum"]
+          jenis: string
           marhalah: Database["public"]["Enums"]["marhalah_enum"]
           musammi_id: number | null
           nama: string
@@ -63,7 +64,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: number
-          jenis: Database["public"]["Enums"]["halaqah_type_enum"]
+          jenis: string
           marhalah: Database["public"]["Enums"]["marhalah_enum"]
           musammi_id?: number | null
           nama: string
@@ -72,7 +73,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: number
-          jenis?: Database["public"]["Enums"]["halaqah_type_enum"]
+          jenis?: string
           marhalah?: Database["public"]["Enums"]["marhalah_enum"]
           musammi_id?: number | null
           nama?: string
@@ -207,7 +208,8 @@ export type Database = {
         | "Sakit"
         | "Alpa"
         | "Terlambat"
-      halaqah_type_enum: "Halaqah Utama" | "Halaqah Pagi"
+      // halaqah_type_enum removed or ignored as 'jenis' is now string in table defs
+      halaqah_type_enum: "Halaqah Utama" | "Halaqah Pagi" 
       marhalah_enum: "Mutawassithah" | "Aliyah" | "Jamiah"
       peran_enum: "Santri" | "Musammi"
       waktu_enum: "Shubuh" | "Dhuha" | "Ashar" | "Isya"

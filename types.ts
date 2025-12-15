@@ -12,10 +12,14 @@ export enum Waktu {
   Isya = 'Isya',
 }
 
-export enum HalaqahType {
-  Utama = 'Halaqah Utama',
-  Pagi = 'Halaqah Pagi',
-}
+// Mengubah enum menjadi konstanta objek dan tipe string
+// agar fleksibel menerima input custom dari user
+export const HalaqahType = {
+  Utama: 'Halaqah Utama',
+  Pagi: 'Halaqah Pagi',
+} as const;
+
+export type HalaqahType = string;
 
 export enum AttendanceStatus {
   Hadir = 'Hadir',

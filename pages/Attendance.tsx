@@ -85,6 +85,17 @@ const Attendance: React.FC = () => {
     const [selectedType, setSelectedType] = useState<HalaqahType | 'all'>('all');
     const [selectedWaktu, setSelectedWaktu] = useState<Waktu | 'all'>('all');
 
+    // Calculate dynamic available types based on data + defaults
+    const availableTypes = useMemo(() => {
+        const types = new Set<string>(ALL_HALAQAH_TYPE);
+        if (halaqah && halaqah.length > 0) {
+            halaqah.forEach(h => {
+                if (h.jenis) types.add(h.jenis);
+            });
+        }
+        return Array.from(types).sort();
+    }, [halaqah]);
+
     const filteredHalaqah = useMemo(() => {
         return halaqah
             .filter(h => {
@@ -173,7 +184,7 @@ const Attendance: React.FC = () => {
                         <label htmlFor="type" className="block text-sm font-medium text-slate-700">Jenis Halaqah</label>
                         <select id="type" value={selectedType} onChange={e => setSelectedType(e.target.value as HalaqahType | 'all')} className="mt-1 block w-full pl-3 pr-10 py-2 text-sm border-slate-300 focus:outline-none focus:ring-secondary focus:border-secondary rounded-md shadow-sm">
                             <option value="all">Semua</option>
-                            {ALL_HALAQAH_TYPE.map(t => <option key={t} value={t}>{t}</option>)}
+                            {availableTypes.map(t => <option key={t} value={t}>{t}</option>)}
                         </select>
                     </div>
                     <div>

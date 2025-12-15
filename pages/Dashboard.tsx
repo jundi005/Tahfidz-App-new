@@ -4,7 +4,7 @@ import { AttendanceColumnChart, SimplePieChart } from '../components/Chart';
 import { useSupabaseData } from '../hooks/useSupabaseData';
 import { AttendanceStatus, Marhalah } from '../types';
 import { Users, BookOpen, CheckCircle } from 'lucide-react';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 const Dashboard: React.FC = () => {
     const { santri, musammi, halaqah, attendance, loading, error } = useSupabaseData();
@@ -42,7 +42,8 @@ const Dashboard: React.FC = () => {
 
     // 3. Weekly Attendance Stacked Bar Chart Data
     const weeklyAttendanceData = Array.from({ length: 7 }).map((_, i) => {
-        const date = subDays(new Date(), i);
+        const date = new Date();
+        date.setDate(date.getDate() - i);
         const dateString = format(date, 'yyyy-MM-dd');
         const dayName = format(date, 'eee');
         const recordsOnDate = attendance.filter(a => a.date === dateString);
